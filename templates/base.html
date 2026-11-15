@@ -1,0 +1,125 @@
+
+
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+    <meta charset="UTF-8">
+
+    <!-- Permite adaptar el diseño a dispositivos móviles -->
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!-- Título dinámico de cada página -->
+    <title>{% block titulo %}Iron Gym | Musculación{% endblock %}</title>
+    <!-- La instrucción "block titulo" permite modificar el título desde otra plantilla. -->
+
+    <!-- Hoja de estilos principal -->
+    <link rel="stylesheet" href="{{ url_for('static', filename='css/estilos.css') }}">
+
+    <!-- Permite agregar estilos particulares desde otras páginas -->
+    {% block estilos %}{% endblock %}
+</head>
+
+<body>
+
+    <!-- ==========================================
+         ENCABEZADO PRINCIPAL
+         ========================================== -->
+    <header class="encabezado">
+
+        <div class="contenedor encabezado-contenido">
+
+            <!-- Logotipo -->
+            <a href="{{ url_for('inicio') }}" class="logo">
+                IRON<span>GYM</span>
+            </a>
+
+            <!-- Navegación principal -->
+            {% block navegacion %}
+
+            <nav class="navegacion">
+
+                <a href="{{ url_for('inicio') }}">Inicio</a>
+
+                <a href="{{ url_for('inicio') }}#maquinas">Máquinas</a>
+
+                <a href="{{ url_for('inicio') }}#planes">Planes</a>
+
+                <a href="{{ url_for('inicio') }}#contacto">Contacto</a>
+
+            </nav>
+
+            {% endblock %}
+
+            <!-- Acceso destacado -->
+            <a href="{{ url_for('inicio') }}#planes" class="boton boton-header">
+                Asociate
+            </a>
+
+        </div>
+
+    </header>
+
+
+    <!-- ==========================================
+         CONTENIDO PRINCIPAL
+         ========================================== -->
+    <main>
+
+        <!-- Mensajes del sistema (Flask Flash) -->
+        <div class="contenedor mensajes">
+
+            {% with mensajes = get_flashed_messages(with_categories=true) %}
+
+                {% if mensajes %}
+
+                    {% for categoria, mensaje in mensajes %}
+
+                        <div class="mensaje mensaje-{{ categoria }}">
+                            {{ mensaje }}
+                        </div>
+
+                    {% endfor %}
+
+                {% endif %}
+
+            {% endwith %}
+
+        </div>
+
+        <!-- La instrucción "block contenido" define dónde aparecerá el contenido de cada página. -->
+        {% block contenido %}{% endblock %} <!-- Cada página insertará aquí su contenido -->
+
+    </main>
+
+
+    <!-- ==========================================
+         PIE DE PÁGINA
+         ========================================== -->
+    <footer class="pie-pagina" id="contacto">
+
+        <div class="contenedor pie-contenido">
+
+            <div class="pie-logo">
+                IRON<span>GYM</span>
+                <p>Entrenamiento. Disciplina. Resultados.</p>
+            </div>
+
+            <div class="pie-informacion">
+                <p>Centro de entrenamiento especializado en musculación.</p>
+                <p>&copy; 2026 Iron Gym. Todos los derechos reservados.</p>
+                <!-- &copy; es una entidad HTML que muestra el símbolo de derechos de autor (©). 
+                Al renderizarse en el navegador, la línea de código se verá exactamente así:
+                © 2026 Iron Gym. Todos los derechos reservados. -->
+            </div>
+
+        </div>
+
+    </footer>
+
+
+    <!-- Espacio para incorporar JavaScript posteriormente -->
+    {% block scripts %}{% endblock %}
+
+</body>
+</html>

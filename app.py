@@ -1,7 +1,7 @@
 
 
 # Importamos Flask para crear nuestra aplicación web.
-from flask import Flask
+from flask import Flask, render_template
 
 # Importamos la configuración centralizada del proyecto.
 from config import Config
@@ -20,19 +20,10 @@ app.config.from_object(Config)
 
 @app.route("/")
 def inicio():
-    """
-    Ruta principal de Iron Gym.
 
-    Por ahora devuelve un mensaje sencillo para comprobar
-    que el servidor Flask funciona correctamente.
-    Posteriormente mostraremos nuestra página de inicio.
-    """
-
-    return """
-        <h1>IRON GYM</h1>
-        <h2>¡Bienvenido a nuestro gimnasio!</h2>
-        <p>La aplicación Flask está funcionando correctamente.</p>
-    """
+    # Renderiza la plantilla principal del sitio web.
+    # inicio.html hereda la estructura de base.html.
+    return render_template("inicio.html")
 
 
 # ---------------------------------------------------------

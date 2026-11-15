@@ -1,0 +1,500 @@
+
+
+/* =====================================================
+   IRON GYM - ESTILOS GENERALES
+   ===================================================== */
+
+
+/* -----------------------------------------------------
+   1. VARIABLES DE DISEÑO
+   ----------------------------------------------------- */
+
+:root {
+
+    /* Colores principales */
+    --color-fondo: #111111;
+    --color-superficie: #1c1c1c;
+    --color-superficie-secundaria: #252525;
+
+    /* Color de identidad */
+    --color-principal: #f5c518;
+    --color-principal-hover: #d9ad0e;
+
+    /* Colores de texto */
+    --color-texto: #ffffff;
+    --color-texto-secundario: #aaaaaa;
+
+    /* Bordes */
+    --color-borde: #333333;
+
+}
+
+
+/* -----------------------------------------------------
+   2. CONFIGURACIÓN GENERAL
+   ----------------------------------------------------- */
+
+/* Elimina márgenes y rellenos predeterminados */
+* {
+    margin: 0;
+    padding: 0;
+    box-sizing: border-box;
+}
+
+/* Desplazamiento suave al navegar por secciones */
+html {
+    scroll-behavior: smooth;
+}
+
+/* Estilos generales del documento */
+body {
+    font-family: Arial, Helvetica, sans-serif;
+    background-color: var(--color-fondo);
+    color: var(--color-texto);
+    line-height: 1.6;
+    min-height: 100vh;
+
+    /* Distribuye el contenido para mantener el footer abajo */
+    display: flex;
+    flex-direction: column;
+}
+
+/* El contenido principal ocupa el espacio disponible */
+main {
+    flex: 1;
+}
+
+/* Contenedor central reutilizable */
+.contenedor {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+}
+
+
+/* -----------------------------------------------------
+   3. ENCABEZADO
+   ----------------------------------------------------- */
+
+.encabezado {
+    background-color: #090909;
+    border-bottom: 1px solid var(--color-borde);
+    padding: 18px 0;
+}
+
+/* Distribución de los elementos del encabezado */
+.encabezado-contenido {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 25px;
+}
+
+/* Logotipo */
+.logo {
+    color: var(--color-texto);
+    font-size: 27px;
+    font-weight: 900;
+    letter-spacing: 1px;
+    text-decoration: none;
+}
+
+/* Destaca GYM con el color institucional */
+.logo span,
+.pie-logo span {
+    color: var(--color-principal);
+}
+
+
+/* -----------------------------------------------------
+   4. MENÚ DE NAVEGACIÓN
+   ----------------------------------------------------- */
+
+.navegacion {
+    display: flex;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Enlaces del menú */
+.navegacion a {
+    color: var(--color-texto-secundario);
+    text-decoration: none;
+    font-size: 15px;
+    font-weight: 600;
+    transition: color 0.3s ease;
+}
+
+/* Efecto al pasar el cursor */
+.navegacion a:hover {
+    color: var(--color-principal);
+}
+
+
+/* -----------------------------------------------------
+   5. BOTONES
+   ----------------------------------------------------- */
+
+.boton {
+    display: inline-block;
+    background-color: var(--color-principal);
+    color: #111111;
+    padding: 11px 24px;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 800;
+    transition: background-color 0.3s ease;
+}
+
+/* Efecto al pasar el cursor */
+.boton:hover {
+    background-color: var(--color-principal-hover);
+}
+
+/* Ajuste del botón del encabezado */
+.boton-header {
+    white-space: nowrap;
+}
+
+
+/* -----------------------------------------------------
+   6. MENSAJES DEL SISTEMA
+   ----------------------------------------------------- */
+
+.mensajes {
+    padding-top: 15px;
+}
+
+/* Estilo general de los mensajes */
+.mensaje {
+    padding: 12px 16px;
+    margin-bottom: 12px;
+    border-radius: 4px;
+    font-size: 14px;
+}
+
+/* Mensajes de éxito */
+.mensaje-success {
+    background-color: #173b25;
+    border-left: 4px solid #36a866;
+}
+
+/* Mensajes de error */
+.mensaje-error {
+    background-color: #481c1c;
+    border-left: 4px solid #e04b4b;
+}
+
+/* Mensajes de advertencia */
+.mensaje-warning {
+    background-color: #493b13;
+    border-left: 4px solid var(--color-principal);
+}
+
+
+/* -----------------------------------------------------
+   7. PIE DE PÁGINA
+   ----------------------------------------------------- */
+
+.pie-pagina {
+    background-color: #090909;
+    border-top: 1px solid var(--color-borde);
+    padding: 35px 0;
+    margin-top: 60px;
+}
+
+/* Distribución de la información */
+.pie-contenido {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+/* Nombre del gimnasio */
+.pie-logo {
+    font-size: 23px;
+    font-weight: 900;
+}
+
+/* Texto secundario del logotipo */
+.pie-logo p {
+    color: var(--color-texto-secundario);
+    font-size: 13px;
+    font-weight: normal;
+}
+
+/* Información institucional */
+.pie-informacion {
+    color: var(--color-texto-secundario);
+    font-size: 13px;
+    text-align: right;
+}
+
+
+/* -----------------------------------------------------
+   8. DISEÑO RESPONSIVE
+   Adaptación para dispositivos móviles
+   ----------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    /* El encabezado se organiza verticalmente */
+    .encabezado-contenido {
+        flex-direction: column;
+        gap: 15px;
+    }
+
+    /* El menú puede ocupar varias líneas */
+    .navegacion {
+        justify-content: center;
+        flex-wrap: wrap;
+        gap: 15px 22px;
+    }
+
+    /* Ajuste del logotipo */
+    .logo {
+        font-size: 25px;
+    }
+
+    /* Pie de página vertical */
+    .pie-contenido {
+        flex-direction: column;
+        text-align: center;
+    }
+
+    .pie-informacion {
+        text-align: center;
+    }
+
+}
+
+
+
+/* =====================================================
+   IRON GYM - PÁGINA DE INICIO
+   ===================================================== */
+
+
+/* -----------------------------------------------------
+   9. PRESENTACIÓN PRINCIPAL (HERO)
+   ----------------------------------------------------- */
+
+.hero {
+    min-height: 570px;
+    display: flex;
+    align-items: center;
+
+    /* Fondo oscuro con iluminación amarilla */
+    background:
+        radial-gradient(
+            ellipse at 80% 50%,
+            rgba(245, 197, 24, 0.12),
+            transparent 55%
+        ),
+        linear-gradient(120deg, #111111, #1c1c1c);
+
+    border-bottom: 1px solid var(--color-borde);
+}
+
+.hero-contenido {
+    padding-top: 70px;
+    padding-bottom: 70px;
+}
+
+.hero-texto {
+    max-width: 720px;
+}
+
+/* Etiquetas destacadas */
+.etiqueta {
+    color: var(--color-principal);
+    font-size: 13px;
+    font-weight: 800;
+    letter-spacing: 3px;
+}
+
+/* Título principal */
+.hero h1 {
+    font-size: clamp(42px, 7vw, 76px);
+    line-height: 1.05;
+    font-weight: 900;
+    margin: 25px 0;
+    letter-spacing: -2px;
+}
+
+.hero h1 span,
+.titulo-seccion h2 span {
+    color: var(--color-principal);
+}
+
+/* Descripción principal */
+.hero-texto p {
+    color: var(--color-texto-secundario);
+    font-size: 18px;
+    max-width: 550px;
+    margin-bottom: 30px;
+}
+
+/* Botones principales */
+.hero-botones {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 15px;
+}
+
+/* Botón secundario */
+.boton-secundario {
+    background-color: transparent;
+    color: var(--color-texto);
+    border: 1px solid var(--color-borde);
+}
+
+.boton-secundario:hover {
+    background-color: var(--color-superficie-secundaria);
+}
+
+
+/* -----------------------------------------------------
+   10. SECCIONES GENERALES
+   ----------------------------------------------------- */
+
+.seccion {
+    padding: 85px 0;
+}
+
+.seccion-alternativa {
+    background-color: var(--color-superficie);
+}
+
+/* Encabezados de las secciones */
+.titulo-seccion {
+    max-width: 700px;
+    margin-bottom: 45px;
+}
+
+.titulo-seccion h2 {
+    font-size: clamp(30px, 5vw, 45px);
+    line-height: 1.15;
+    margin: 15px 0;
+    font-weight: 900;
+}
+
+.titulo-seccion p {
+    color: var(--color-texto-secundario);
+    font-size: 16px;
+}
+
+
+/* -----------------------------------------------------
+   11. TARJETAS DE PROPUESTA
+   ----------------------------------------------------- */
+
+.propuesta-tarjetas {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 22px;
+}
+
+/* Tarjeta individual */
+.tarjeta {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: 6px;
+    padding: 30px;
+    transition: border-color 0.3s ease,
+                transform 0.3s ease;
+}
+
+/* Efecto al pasar el cursor */
+.tarjeta:hover {
+    border-color: var(--color-principal);
+    transform: translateY(-5px);
+}
+
+/* Número identificador */
+.tarjeta-icono {
+    color: var(--color-principal);
+    font-size: 28px;
+    font-weight: 900;
+    margin-bottom: 20px;
+}
+
+/* Título de cada tarjeta */
+.tarjeta h3 {
+    font-size: 19px;
+    margin-bottom: 12px;
+}
+
+/* Descripción */
+.tarjeta p {
+    color: var(--color-texto-secundario);
+    font-size: 14px;
+}
+
+
+/* -----------------------------------------------------
+   12. SECCIONES EN DESARROLLO
+   ----------------------------------------------------- */
+
+.mensaje-desarrollo {
+    background-color: var(--color-fondo);
+    border: 1px solid var(--color-borde);
+    border-left: 4px solid var(--color-principal);
+    border-radius: 4px;
+    padding: 30px;
+}
+
+.mensaje-desarrollo h3 {
+    margin-bottom: 10px;
+    font-size: 21px;
+}
+
+.mensaje-desarrollo p {
+    color: var(--color-texto-secundario);
+}
+
+
+/* -----------------------------------------------------
+   13. AJUSTES RESPONSIVE PARA INICIO
+   ----------------------------------------------------- */
+
+@media (max-width: 768px) {
+
+    .hero {
+        min-height: 480px;
+    }
+
+    .hero-contenido {
+        padding-top: 55px;
+        padding-bottom: 55px;
+    }
+
+    .hero h1 {
+        letter-spacing: -1px;
+    }
+
+    .hero-texto p {
+        font-size: 16px;
+    }
+
+    .hero-botones {
+        flex-direction: column;
+        align-items: flex-start;
+    }
+
+    .hero-botones .boton {
+        text-align: center;
+        width: 100%;
+    }
+
+    .seccion {
+        padding: 60px 0;
+    }
+
+    /* Las tarjetas se muestran una debajo de otra */
+    .propuesta-tarjetas {
+        grid-template-columns: 1fr;
+    }
+
+}
