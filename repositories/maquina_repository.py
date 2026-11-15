@@ -378,3 +378,66 @@ class MaquinaRepository:
 
             if conexion is not None:
                 conexion.close()
+
+
+    def existe_codigo(self, codigo, excluir_id=None):
+        """
+        Comprueba si un código ya está registrado.
+
+        Parámetros:
+            codigo: código que se desea verificar.
+            excluir_id: identificador que se excluye de la búsqueda.
+                        Se utiliza al actualizar una máquina.
+
+        Retorna:
+            True si el código ya existe.
+            False si el código está disponible.
+            None si ocurre un error de conexión o consulta.
+        """
+
+        conexion = None
+        cursor = None
+
+        try:
+            conexion = obtener_conexion()
+
+            if conexion is None:
+                return None
+
+            cursor = conexion.cursor()
+
+            # Si estamos modificando una máquina, excluimos su propio ID.
+            if excluir_id is not None:
+                consulta = """
+                    SELECT 1
+                    FROM maquinas
+                    WHERE codigo = %s
+                    AND id_maquina <> %s
+                    LIMIT 1
+                """
+
+                cursor.execute(consulta, (codigo, excluir_id))
+
+            else:
+                consulta = """
+                    SELECT 1
+                    FROM maquinas
+                    WHERE codigo = %s
+                    LIMIT 1
+                """
+
+                cursor.execute(consulta, (codigo,))
+
+            # Si fetchone devuelve un registro, el código ya existe.
+            return cursor.fetchone() is not None
+
+        except mysql.connector.Error as error:
+            print(f"Error al verificar el código de la máquina: {error}")
+            return None
+
+        finally:
+            if cursor is not None:
+                cursor.close()
+
+            if conexion is not None:
+                conexion.close()
