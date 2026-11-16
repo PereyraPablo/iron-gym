@@ -1,0 +1,100 @@
+
+
+{% extends "base.html" %}
+
+{% block titulo %}Catálogo de Máquinas | Iron Gym{% endblock %}
+
+{% block contenido %}
+
+<section class="catalogo-maquinas">
+
+    <!-- Encabezado principal del catálogo -->
+    <div class="catalogo-encabezado">
+        <h1>Nuestras máquinas</h1>
+
+        <p>
+            Equipamiento especializado para desarrollar fuerza,
+            hipertrofia y rendimiento muscular.
+        </p>
+    </div>
+
+    <!-- Comprobamos si existen máquinas activas -->
+    {% if maquinas %}
+
+        <div class="maquinas-grid">
+
+            <!-- Recorremos las máquinas recibidas desde el controlador -->
+            {% for maquina in maquinas %}
+
+                <article class="maquina-card">
+
+                    <!-- Imagen de la máquina -->
+                    <div class="maquina-imagen">
+
+                        {% if maquina.imagen %}
+                            <img
+                                src="{{ url_for('static', filename='img/maquinas/' ~ maquina.imagen) }}"
+                                alt="{{ maquina.nombre }}"
+                            >
+                        {% else %}
+                            <div class="imagen-sin-disponibilidad">
+                                Imagen próximamente
+                            </div>
+                        {% endif %}
+
+                    </div>
+
+                    <!-- Información de la máquina -->
+                    <div class="maquina-info">
+
+                        <h2>{{ maquina.nombre }}</h2>
+
+                        {% if maquina.marca %}
+                            <p class="maquina-marca">
+                                {{ maquina.marca }}
+                            </p>
+                        {% endif %}
+
+                        {% if maquina.descripcion %}
+                            <p class="maquina-descripcion">
+                                {{ maquina.descripcion }}
+                            </p>
+                        {% endif %}
+
+                        <!-- Mostramos el rango de cargas si está informado -->
+                        {% if maquina.carga_minima is not none
+                              and maquina.carga_maxima is not none %}
+
+                            <p class="maquina-cargas">
+                                Carga:
+                                {{ maquina.carga_minima }} kg -
+                                {{ maquina.carga_maxima }} kg
+                            </p>
+
+                        {% endif %}
+
+                    </div>
+
+                </article>
+
+            {% endfor %}
+
+        </div>
+
+    {% else %}
+
+        <!-- Mensaje cuando todavía no hay máquinas activas -->
+        <div class="catalogo-vacio">
+            <h2>Próximamente</h2>
+
+            <p>
+                Estamos preparando nuestro catálogo de máquinas.
+                Volvé a visitarnos pronto.
+            </p>
+        </div>
+
+    {% endif %}
+
+</section>
+
+{% endblock %}
