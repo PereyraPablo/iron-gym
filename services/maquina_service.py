@@ -44,6 +44,43 @@ class MaquinaService:
 
         return self.__repositorio.listar_activas()
 
+    def listar_grupos_activos(self):
+        """
+        Obtiene los grupos musculares que se encuentran activos.
+
+        Esta consulta permitirá mostrar los grupos disponibles
+        para que el usuario pueda filtrar el catálogo de máquinas.
+        """
+
+        return self.__repositorio.listar_grupos_activos()
+
+    def listar_activas_por_grupo(self, id_grupo):
+        """
+        Obtiene las máquinas activas asociadas a un grupo muscular.
+
+        Recibe:
+            id_grupo: identificador del grupo muscular.
+
+        Retorna:
+            Una lista de diccionarios con los datos de las máquinas
+            y el tipo de trabajo muscular correspondiente.
+
+        Si el grupo no existe, está inactivo o no tiene máquinas
+        asociadas, el repositorio devolverá una lista vacía.
+        """
+
+        # Validamos que el identificador sea un entero positivo.
+        # También rechazamos bool, aunque en Python sea un subtipo de int.
+        if (
+            not isinstance(id_grupo, int)
+            or isinstance(id_grupo, bool)
+            or id_grupo <= 0
+        ):
+            raise ValueError("El identificador del grupo muscular no es válido.")
+
+        # Solicitamos al repositorio las máquinas activas del grupo.
+        return self.__repositorio.listar_activas_por_grupo(id_grupo)
+
     def obtener_por_id(self, id_maquina):
         """
         Busca una máquina mediante su identificador.

@@ -19,6 +19,7 @@ class MaquinaRepository:
     la clase Maquina para representar los registros.
     """
 
+
     def listar_todas(self):
         """
         Obtiene todas las máquinas registradas.
@@ -73,6 +74,7 @@ class MaquinaRepository:
             if conexion is not None:
                 conexion.close()
 
+
     def listar_activas(self):
         """
         Obtiene únicamente las máquinas disponibles
@@ -123,6 +125,122 @@ class MaquinaRepository:
             if conexion is not None:
                 conexion.close()
 
+    
+    def listar_grupos_activos(self):
+        """
+        Obtiene los grupos musculares que están activos.
+
+        Retorna:
+            Una lista de diccionarios con los datos de cada grupo.
+            Una lista vacía si no hay grupos o ocurre un error.
+        """
+
+        conexion = None
+        cursor = None
+        grupos = []
+
+        try:
+            # Solicitamos una conexión con la base de datos.
+            conexion = obtener_conexion()
+
+            if conexion is None:
+                return grupos
+
+            # Utilizamos un cursor que devuelve los resultados como diccionarios.
+            cursor = conexion.cursor(dictionary=True)
+
+            # Consultamos únicamente los grupos musculares activos.
+            consulta = """
+                SELECT id_grupo, nombre, descripcion
+                FROM grupos_musculares
+                WHERE activo = TRUE
+                ORDER BY nombre ASC
+            """
+
+            cursor.execute(consulta)
+
+            # Recuperamos todos los grupos encontrados.
+            grupos = cursor.fetchall()
+
+            return grupos
+
+        except mysql.connector.Error as error:
+            print(f"Error al listar los grupos musculares: {error}")
+            return []
+
+        finally:
+            # Liberamos los recursos utilizados.
+            if cursor is not None:
+                cursor.close()
+
+            if conexion is not None:
+                conexion.close()
+
+
+    def listar_activas_por_grupo(self, id_grupo):
+        """
+        Obtiene las máquinas activas asociadas a un grupo muscular.
+
+        Parámetros:
+            id_grupo: identificador del grupo muscular.
+
+        Retorna:
+            Una lista de diccionarios con los datos de las máquinas
+            y el tipo de trabajo muscular.
+            Una lista vacía si no hay resultados o ocurre un error.
+        """
+
+        conexion = None
+        cursor = None
+        maquinas = []
+
+        try:
+            # Solicitamos una conexión con la base de datos.
+            conexion = obtener_conexion()
+
+            if conexion is None:
+                return maquinas
+
+            # Utilizamos un cursor que devuelve los resultados como diccionarios.
+            cursor = conexion.cursor(dictionary=True)
+
+            # Relacionamos las máquinas con sus grupos musculares.
+            # También verificamos que ambos registros estén activos.
+            consulta = """
+                SELECT
+                    m.*,
+                    mgm.tipo_trabajo
+                FROM maquinas AS m
+                INNER JOIN maquina_grupo_muscular AS mgm
+                    ON m.id_maquina = mgm.id_maquina
+                INNER JOIN grupos_musculares AS gm
+                    ON mgm.id_grupo = gm.id_grupo
+                WHERE m.estado = %s
+                AND gm.id_grupo = %s
+                AND gm.activo = TRUE
+                ORDER BY m.nombre ASC
+            """
+
+            cursor.execute(consulta, ("ACTIVA", id_grupo))
+
+            # Recuperamos las máquinas encontradas.
+            maquinas = cursor.fetchall()
+
+            return maquinas
+
+        except mysql.connector.Error as error:
+            print(f"Error al listar máquinas por grupo muscular: {error}")
+            return []
+
+        finally:
+            # Liberamos los recursos utilizados.
+            if cursor is not None:
+                cursor.close()
+
+            if conexion is not None:
+                conexion.close()
+            
+
     def obtener_por_id(self, id_maquina):
         """
         Busca una máquina mediante su identificador.
@@ -171,6 +289,7 @@ class MaquinaRepository:
 
             if conexion is not None:
                 conexion.close()
+
 
     def registrar(self, maquina):
         """
@@ -248,6 +367,7 @@ class MaquinaRepository:
             if conexion is not None:
                 conexion.close()
 
+
     def actualizar(self, maquina):
         """
         Actualiza los datos de una máquina existente.
@@ -321,6 +441,7 @@ class MaquinaRepository:
 
             if conexion is not None:
                 conexion.close()
+                
 
     def cambiar_estado(self, id_maquina, nuevo_estado):
         """

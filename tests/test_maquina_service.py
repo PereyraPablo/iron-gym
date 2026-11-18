@@ -61,6 +61,87 @@ class TestMaquinaService(unittest.TestCase):
         self.assertEqual(len(resultado), 1)
         self.repositorio.listar_activas.assert_called_once()
 
+    def test_listar_grupos_activos(self):
+        # Simulamos la respuesta del repositorio.
+        grupos = [
+            {
+                "id_grupo": 1,
+                "nombre": "Pectorales",
+                "descripcion": "Músculos del pecho."
+            },
+            {
+                "id_grupo": 2,
+                "nombre": "Espalda",
+                "descripcion": "Músculos de la espalda."
+            }
+        ]
+
+        self.repositorio.listar_grupos_activos.return_value = grupos
+
+        resultado = self.servicio.listar_grupos_activos()
+
+        self.assertEqual(resultado, grupos)
+        self.repositorio.listar_grupos_activos.assert_called_once()
+
+    def test_listar_activas_por_grupo(self):
+        # Simulamos una máquina asociada al grupo Pectorales.
+        maquinas = [
+            {
+                "id_maquina": 1,
+                "codigo": "MAQ-001",
+                "nombre": "Press de pecho",
+                "tipo_trabajo": "PRINCIPAL"
+            }
+        ]
+
+        self.repositorio.listar_activas_por_grupo.return_value = maquinas
+
+        resultado = self.servicio.listar_activas_por_grupo(1)
+
+        self.assertEqual(resultado, maquinas)
+
+        self.repositorio.listar_activas_por_grupo.assert_called_once_with(1)
+
+        # Comprobamos que se conserve el tipo de trabajo muscular.
+        self.assertEqual(resultado[0]["tipo_trabajo"], "PRINCIPAL")
+
+    def test_listar_activas_por_grupo_invalido(self):
+        # Probamos distintos valores que no son identificadores válidos.
+        identificadores_invalidos = [
+            0,
+            -1,
+            "1",
+            None,
+            True,
+            1.5
+        ]
+
+        for identificador in identificadores_invalidos:
+            with self.subTest(identificador=identificador):
+                with self.assertRaises(ValueError):
+                    self.servicio.listar_activas_por_grupo(identificador)
+
+        # Ningún identificador inválido debe llegar al repositorio.
+        self.repositorio.listar_activas_por_grupo.assert_not_called()
+
+    def test_listar_activas_por_grupo_sin_maquinas(self):
+        # Simulamos un grupo que no tiene máquinas asociadas.
+        self.repositorio.listar_activas_por_grupo.return_value = []
+
+        resultado = self.servicio.listar_activas_por_grupo(3)
+
+        self.assertEqual(resultado, [])
+        self.repositorio.listar_activas_por_grupo.assert_called_once_with(3)
+
+    def test_listar_activas_por_grupo_inactivo(self):
+        # El repositorio devuelve una lista vacía si el grupo está inactivo.
+        self.repositorio.listar_activas_por_grupo.return_value = []
+
+        resultado = self.servicio.listar_activas_por_grupo(2)
+
+        self.assertEqual(resultado, [])
+        self.repositorio.listar_activas_por_grupo.assert_called_once_with(2)
+
     def test_obtener_por_id_invalido(self):
         with self.assertRaises(ValueError):
             self.servicio.obtener_por_id(0)

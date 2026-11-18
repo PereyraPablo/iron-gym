@@ -18,7 +18,57 @@
         </p>
     </div>
 
-    <!-- Comprobamos si existen máquinas activas -->
+    <!-- Filtro para buscar máquinas por grupo muscular -->
+    <div class="filtro-grupos">
+
+        <form
+            class="filtro-grupos-form"
+            method="GET"
+            action="{{ url_for('maquinas.catalogo') }}"
+        >
+
+            <label for="id_grupo">
+                Buscar máquinas por grupo muscular
+            </label>
+
+            <div class="filtro-grupos-controles">
+
+                <select
+                    name="id_grupo"
+                    id="id_grupo"
+                    class="filtro-grupos-select"
+                >
+
+                    <!-- Opción para mostrar todas las máquinas -->
+                    <option value="">
+                        Todos los grupos musculares
+                    </option>
+
+                    <!-- Recorremos los grupos activos recibidos del servicio -->
+                    {% for grupo in grupos %}
+
+                        <option
+                            value="{{ grupo.id_grupo }}"
+                            {% if grupo.id_grupo == id_grupo %}selected{% endif %}
+                        >
+                            {{ grupo.nombre }}
+                        </option>
+
+                    {% endfor %}
+
+                </select>
+
+                <button type="submit" class="filtro-grupos-boton">
+                    Filtrar
+                </button>
+
+            </div>
+
+        </form>
+
+    </div>
+
+    <!-- Comprobamos si existen máquinas para mostrar -->
     {% if maquinas %}
 
         <div class="maquinas-grid">
@@ -73,6 +123,19 @@
 
                         {% endif %}
 
+                        <!--
+                            Este dato está disponible cuando las máquinas
+                            se consultan mediante un grupo muscular.
+                        -->
+                        {% if maquina.tipo_trabajo is defined %}
+
+                            <p class="maquina-tipo-trabajo">
+                                Trabajo muscular:
+                                {{ maquina.tipo_trabajo | lower }}
+                            </p>
+
+                        {% endif %}
+
                     </div>
 
                 </article>
@@ -83,14 +146,33 @@
 
     {% else %}
 
-        <!-- Mensaje cuando todavía no hay máquinas activas -->
+        <!-- Mensaje cuando no existen resultados para mostrar -->
         <div class="catalogo-vacio">
-            <h2>Próximamente</h2>
 
-            <p>
-                Estamos preparando nuestro catálogo de máquinas.
-                Volvé a visitarnos pronto.
-            </p>
+            {% if id_grupo is not none %}
+
+                <h2>Sin máquinas disponibles</h2>
+
+                <p>
+                    Actualmente no hay máquinas activas asociadas
+                    al grupo muscular seleccionado.
+                </p>
+
+                <a href="{{ url_for('maquinas.catalogo') }}">
+                    Ver todas las máquinas
+                </a>
+
+            {% else %}
+
+                <h2>Próximamente</h2>
+
+                <p>
+                    Estamos preparando nuestro catálogo de máquinas.
+                    Volvé a visitarnos pronto.
+                </p>
+
+            {% endif %}
+
         </div>
 
     {% endif %}

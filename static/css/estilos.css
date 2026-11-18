@@ -723,3 +723,113 @@ main {
     }
 
 }
+
+
+
+/* -----------------------------------------------------
+   21. FILTRO POR GRUPO MUSCULAR
+   ----------------------------------------------------- */
+
+.filtro-grupos {
+    background-color: var(--color-superficie);
+    border: 1px solid var(--color-borde);
+    border-radius: 6px;
+    padding: 24px;
+    margin-bottom: 35px;
+    max-width: 650px;
+}
+
+/* Etiqueta del selector */
+.filtro-grupos-form label {
+    display: block;
+    font-size: 15px;
+    font-weight: 700;
+    margin-bottom: 12px;
+}
+
+/* Distribución del selector y el botón */
+.filtro-grupos-controles {
+    display: flex;
+    gap: 12px;
+}
+
+/* Selector de grupos musculares */
+.filtro-grupos-select {
+    flex: 1;
+    min-width: 0;
+    background-color: #111111;
+    color: var(--color-texto);
+    border: 1px solid var(--color-borde);
+    border-radius: 4px;
+    padding: 12px;
+    font-size: 14px;
+}
+
+/* Efecto al seleccionar el campo */
+.filtro-grupos-select:focus {
+    outline: none;
+    border-color: var(--color-principal);
+}
+
+/* Botón para aplicar el filtro */
+.filtro-grupos-boton {
+    background-color: var(--color-principal);
+    color: #111111;
+    border: none;
+    border-radius: 4px;
+    padding: 12px 22px;
+    font-weight: 800;
+    cursor: pointer;
+    transition: background-color 0.3s ease;
+}
+
+.filtro-grupos-boton:hover {
+    background-color: var(--color-principal-hover);
+}
+
+/* Identificación del trabajo muscular */
+.maquina-tipo-trabajo {
+    display: inline-block;
+    background-color: #111111;
+    border: 1px solid var(--color-borde);
+    border-radius: 4px;
+    padding: 7px 11px;
+    margin-top: 12px;
+    color: var(--color-principal);
+    font-size: 12px;
+    font-weight: 700;
+    text-transform: capitalize;
+}
+
+/* Enlace para volver al catálogo completo */
+.catalogo-vacio a {
+    display: inline-block;
+    margin-top: 18px;
+    color: var(--color-principal);
+    font-weight: 700;
+    text-decoration: none;
+}
+
+.catalogo-vacio a:hover {
+    color: var(--color-principal-hover);
+    text-decoration: underline;
+}
+
+/* Adaptación del filtro a celulares */
+@media (max-width: 600px) {
+
+    .filtro-grupos {
+        padding: 18px;
+        margin-bottom: 25px;
+    }
+
+    .filtro-grupos-controles {
+        flex-direction: column;
+    }
+
+    .filtro-grupos-select,
+    .filtro-grupos-boton {
+        width: 100%;
+    }
+}
+
