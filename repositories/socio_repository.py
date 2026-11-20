@@ -41,7 +41,7 @@ class SocioRepository:
 
         Retorna:
             Un objeto Socio si existe.
-            None si no se encuentra o ocurre un error.
+            None si no se encuentra u ocurre un error.
         """
 
         conexion = None
