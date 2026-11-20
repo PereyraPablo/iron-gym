@@ -15,8 +15,15 @@ class Config:
     general de la aplicación Iron Gym.
     """
 
-    # Clave secreta utilizada por Flask.
+    # Clave secreta utilizada por Flask para proteger las sesiones.
     SECRET_KEY = os.getenv("SECRET_KEY")
+
+    # Comprobamos que exista una clave secreta.
+    # Si falta, detenemos la aplicación para evitar sesiones inseguras.
+    if not SECRET_KEY:
+        raise RuntimeError(
+            "No se encontró SECRET_KEY en el archivo .env."
+        )
 
     # Configuración de conexión con MySQL.
     DB_HOST = os.getenv("DB_HOST", "localhost")
@@ -24,11 +31,3 @@ class Config:
     DB_NAME = os.getenv("DB_NAME", "iron_gym")
     DB_USER = os.getenv("DB_USER")
     DB_PASSWORD = os.getenv("DB_PASSWORD", "")
-
-
-'''
-1. Carga las variables del .env.
-2. Centraliza los datos de configuración.
-3. Define la clase Config.
-
-'''

@@ -47,14 +47,39 @@
 
                 <a href="{{ url_for('inicio') }}#contacto">Contacto</a>
 
+                <!-- Opciones disponibles según el rol del usuario -->
+                {% if current_user.is_authenticated %}
+
+                    {% if current_user.rol == "ADMIN" %}
+
+                        <a href="{{ url_for('admin.panel_administracion') }}">
+                            Administración
+                        </a>
+
+                    {% endif %}
+
+                {% endif %}
+
             </nav>
 
             {% endblock %}
 
-            <!-- Acceso destacado -->
-            <a href="{{ url_for('inicio') }}#planes" class="boton boton-header">
-                Asociate
-            </a>
+            <!-- Acceso destacado según el estado de autenticación -->
+            {% if current_user.is_authenticated %}
+
+                <!-- Si hay una sesión activa, mostramos el cierre de sesión -->
+                <a href="{{ url_for('auth.logout') }}" class="boton boton-header">
+                    Cerrar sesión
+                </a>
+
+            {% else %}
+
+                <!-- Si no hay una sesión activa, mostramos el acceso al login -->
+                <a href="{{ url_for('auth.login') }}" class="boton boton-header">
+                    Iniciar sesión
+                </a>
+
+            {% endif %}
 
         </div>
 
@@ -108,7 +133,7 @@
             <div class="pie-informacion">
                 <p>Centro de entrenamiento especializado en musculación.</p>
                 <p>&copy; 2026 Iron Gym. Todos los derechos reservados.</p>
-                <!-- &copy; es una entidad HTML que muestra el símbolo de derechos de autor (©). 
+                <!-- &copy; es una entidad HTML que muestra el símbolo de derechos de autor (©).
                 Al renderizarse en el navegador, la línea de código se verá exactamente así:
                 © 2026 Iron Gym. Todos los derechos reservados. -->
             </div>
